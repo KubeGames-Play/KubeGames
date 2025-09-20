@@ -1,1 +1,208 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KubeGames</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      overflow-x: hidden;
+      background-color: #000;
+      font-family: sans-serif;
+      color: #fff;
+      box-sizing: border-box;
+    }
+    *, *::before, *::after {
+      box-sizing: inherit;
+    }
 
+    .header-bar {
+      background-color: #333;
+      height: 2cm;
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+      gap: 10px;
+    }
+
+    h1 {
+      font-size: 1.5em;
+      font-weight: bold;
+      background: linear-gradient(to right, #007bff, #ffffff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      position: relative;
+      gap: 8px;
+    }
+
+    .search-input {
+      width: 0;
+      padding: 0;
+      border: none;
+      outline: none;
+      border-radius: 5px;
+      transition: width 0.3s ease, padding 0.3s ease;
+      font-size: 1em;
+      background-color: #555;
+      color: #fff;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .search-input.visible {
+      width: 15ch;
+      padding: 5px 10px;
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .icon-button {
+      cursor: pointer;
+      width: 1.5em;
+      height: 1.5em;
+      fill: white;
+      stroke: white;
+      flex-shrink: 0;
+    }
+
+    .main-content {
+      padding-top: calc(2cm + 3cm);
+      padding-left: 20px;
+      padding-right: 20px;
+      display: flex;
+      flex-wrap: nowrap;
+      gap: 20px;
+      box-sizing: border-box;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+
+    .layout-block {
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .big-box {
+      background-color: #555;
+      width: 6cm;
+      height: 6cm;
+      border-radius: 5px;
+      flex-shrink: 0;
+    }
+
+    .small-box-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 2.835cm);
+      grid-auto-rows: 2.835cm;
+      gap: 10px;
+    }
+
+    .small-box {
+      background-color: #555;
+      border-radius: 5px;
+      width: 2.835cm;
+      height: 2.835cm;
+    }
+  </style>
+</head>
+<body>
+  <div class="header-bar">
+    <h1>KubeGames</h1>
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Hae..." aria-label="Haku" />
+      <svg class="icon-button" viewBox="0 0 24 24" aria-hidden="true" focusable="false" id="search-icon" role="button" tabindex="0">
+        <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" fill="none" />
+        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="main-content">
+    <!-- Layout 1 -->
+    <div class="layout-block">
+      <div class="big-box"></div>
+      <div class="small-box-grid">
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+      </div>
+    </div>
+
+    <!-- Layout 2 -->
+    <div class="layout-block">
+      <div class="big-box"></div>
+      <div class="small-box-grid">
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+      </div>
+    </div>
+
+    <!-- Layout 3 -->
+    <div class="layout-block">
+      <div class="big-box"></div>
+      <div class="small-box-grid">
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+        <div class="small-box"></div>
+      </div>
+    </div>
+
+    <!-- Layout 4 (muokattu oikeanpuoleiset pikkuboksit piilotettu) -->
+    <div class="layout-block">
+      <div class="big-box"></div>
+      <div class="small-box-grid">
+        <div class="small-box"></div> <!-- vasen ylä -->
+        <div style="visibility:hidden;"></div> <!-- oikea ylä piilotettu -->
+        <div class="small-box"></div> <!-- vasen ala -->
+        <div style="visibility:hidden;"></div> <!-- oikea ala piilotettu -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchIcon = document.getElementById('search-icon');
+    const searchInput = document.querySelector('.search-input');
+
+    function toggleSearch() {
+      if (searchInput.classList.contains('visible')) {
+        searchInput.classList.remove('visible');
+        searchInput.value = '';
+      } else {
+        searchInput.classList.add('visible');
+        searchInput.focus();
+      }
+    }
+
+    searchIcon.addEventListener('click', toggleSearch);
+    searchIcon.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        toggleSearch();
+      }
+    });
+  </script>
+</body>
+</html>
