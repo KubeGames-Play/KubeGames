@@ -44,6 +44,12 @@
       flex-shrink: 0;
     }
 
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
     .search-container {
       display: flex;
       align-items: center;
@@ -71,13 +77,56 @@
       pointer-events: auto;
     }
 
-    .icon-button {
+    .icon-button, .menu-icon div {
       cursor: pointer;
       width: 1.5em;
       height: 1.5em;
-      fill: white;
-      stroke: white;
-      flex-shrink: 0;
+      background-color: white;
+      display: block;
+    }
+
+    .menu-icon {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      align-items: center;
+      width: 1.5em;
+      height: 1.5em;
+    }
+
+    .menu-icon div {
+      height: 0.2em;
+      background-color: white;
+    }
+
+    /* Liukuvan valikon tyylit */
+    .menu {
+      position: fixed;
+      top: 0;
+      right: -4cm;
+      width: 4cm;
+      height: 100%;
+      background-color: #555;
+      transition: right 0.3s ease;
+      z-index: 90;
+      padding: 20px;
+    }
+
+    .menu.open {
+      right: 0;
+    }
+
+    .close-menu {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+      width: 1.5em;
+      height: 1.5em;
+      background-color: transparent;
+      border: none;
+      color: white;
+      font-size: 1.2em;
     }
 
     .main-content {
@@ -127,13 +176,27 @@
 <body>
   <div class="header-bar">
     <h1>KubeGames</h1>
-    <div class="search-container">
-      <input type="text" class="search-input" placeholder="Hae..." aria-label="Haku" />
-      <svg class="icon-button" viewBox="0 0 24 24" aria-hidden="true" focusable="false" id="search-icon" role="button" tabindex="0">
-        <circle cx="11" cy="11" r="7" stroke="white" stroke-width="2" fill="none" />
-        <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="white" stroke-width="2" stroke-linecap="round" />
-      </svg>
+    <div class="header-right">
+      <div class="search-container">
+        <input type="text" class="search-input" placeholder="Hae..." aria-label="Haku" />
+        <svg class="icon-button" viewBox="0 0 24 24" aria-hidden="true" focusable="false" id="search-icon" role="button" tabindex="0">
+          <circle cx="11" cy="11" r="7" stroke="black" stroke-width="2" fill="none" />
+          <line x1="16.5" y1="16.5" x2="21" y2="21" stroke="black" stroke-width="2" stroke-linecap="round" />
+        </svg>
+      </div>
+      <div class="menu-icon" id="menu-icon" role="button" tabindex="0">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
+  </div>
+
+  <!-- Liukuva menu -->
+  <div class="menu" id="menu">
+    <button class="close-menu" id="close-menu">×</button>
+    <h2>Menu</h2>
+    <p>Valikon sisältöä tähän.</p>
   </div>
 
   <div class="main-content">
@@ -185,6 +248,9 @@
   <script>
     const searchIcon = document.getElementById('search-icon');
     const searchInput = document.querySelector('.search-input');
+    const menuIcon = document.getElementById('menu-icon');
+    const menu = document.getElementById('menu');
+    const closeMenu = document.getElementById('close-menu');
 
     function toggleSearch() {
       if (searchInput.classList.contains('visible')) {
@@ -202,6 +268,15 @@
         e.preventDefault();
         toggleSearch();
       }
+    });
+
+    // Menu open/close
+    menuIcon.addEventListener('click', () => {
+      menu.classList.add('open');
+    });
+
+    closeMenu.addEventListener('click', () => {
+      menu.classList.remove('open');
     });
   </script>
 </body>
